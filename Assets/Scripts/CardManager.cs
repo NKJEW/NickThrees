@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct BaseCard {
+public struct CardValue {
     public string display;
     public int val;
 }
@@ -16,10 +16,10 @@ public struct CardData {
         Diamonds = 3
     }
 
-    BaseCard baseData;
+    CardValue baseData;
     Suit suit;
 
-    public CardData(BaseCard baseData, Suit suit) {
+    public CardData(CardValue baseData, Suit suit) {
         this.baseData = baseData;
         this.suit = suit;
     }
@@ -32,7 +32,7 @@ public struct CardData {
 public class CardManager : MonoBehaviour {
     public static CardManager instance;
 
-    public List<BaseCard> cardValues;
+    public List<CardValue> cardValues;
 
     List<CardData> deck;
 
@@ -47,7 +47,7 @@ public class CardManager : MonoBehaviour {
 
         for (int i = 0; i < 4; i += 1) {
             CardData.Suit suit = (CardData.Suit)i;
-            foreach (BaseCard card in cardValues) {
+            foreach (CardValue card in cardValues) {
                 deck.Add(new CardData(card, suit));
             }
         }

@@ -9,7 +9,7 @@ public class CenterPile : MonoBehaviour {
         //FIXME
     }
 
-    public bool IsReversed() {
+    bool IsReversed() {
         return false; //FIXME
     }
 
