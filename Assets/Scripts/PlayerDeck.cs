@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerDeck : MonoBehaviour
+public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable
 {
     //representation of your hand
 	public List<CardData> hand;
@@ -34,5 +35,9 @@ public class PlayerDeck : MonoBehaviour
 			}
 		}
     }
-    //
+
+
+    public void OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info) {
+        
+    }
 }
