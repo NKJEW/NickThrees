@@ -5,16 +5,22 @@ using UnityEngine;
 public class CenterPile : MonoBehaviour {
     List<CardData> cards;
 
+    public CardData TopCard() {
+        return cards[cards.Count - 1];
+    }
+
     public void BlowUp() {
-        //FIXME
+        if (TopCard().GetValue() == 10) {
+            cards.Clear();
+        }
     }
 
     bool IsReversed() {
-        return false; //FIXME
+        return TopCard().GetValue() == 7;
     }
 
-    public bool IsValid(CardData card) {
-        return true; //FIXME
+    public bool IsValidMove(CardData card) {
+        return card.GetValue() >= TopCard().GetValue();
     }
 
     public void AddCard(CardData card) {
