@@ -56,4 +56,11 @@ public class CardManager : MonoBehaviour {
     public List<CardData> DeckCopy() {
         return new List<CardData>(deck);
     }
+
+    public string StringFromCardList(List<CardData> list) {
+        string str = list[0].GetKey;
+        foreach (CardData c in list.GetRange(1, list.Count - 1)) {
+            str += "," + c.GetKey();
+        }
+    }
 }

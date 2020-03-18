@@ -29,11 +29,17 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     void SortPlayable(List<CardData> list) {
-    	for (int i = 0; i < hand.Count; i++) {
-			if (CenterPile.instance.IsValidMove(list[i])) {
-				playable.Add(list[i]);
+    	foreach (CardData c in list) {
+			if (CenterPile.instance.IsValidMove(c)) {
+				playable.Add(c);
 			}
 		}
+    }
+
+    public string GetPlayerKey() {
+    	return CardManager.instance.StringFromCardList(hand) + "/"
+    		+ CardManager.instance.StringFromCardList(visible) + "/"
+    		+ CardManager.instance.StringFromCardList(hidden);
     }
 
 
