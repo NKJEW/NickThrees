@@ -18,7 +18,7 @@ public class CenterPile : MonoBehaviour {
     }
 
     public void AddCard(CardData card) {
-        //FIXME
+        cards.Add(card);
     }
 
     //probably other stuffs too
