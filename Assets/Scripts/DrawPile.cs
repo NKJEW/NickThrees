@@ -7,11 +7,13 @@ public class DrawPile : MonoBehaviour {
     public static DrawPile instance;
     public GameObject cardVisual;
     public Text cardCount;
+    public GameObject manualDrawButton;
 
     List<CardData> pile;
 
     void Awake() {
         instance = this;
+        manualDrawButton.SetActive(false);
     }
 
     public void Init(List<CardData> cards) {
@@ -37,5 +39,14 @@ public class DrawPile : MonoBehaviour {
     void UpdateText() {
         cardVisual.SetActive(!IsEmpty());
         cardCount.text = pile.Count.ToString();
+    }
+
+    public void EnableManualDraw() {
+        manualDrawButton.SetActive(true);
+    }
+
+    public void ManualDraw() {
+        PlayerDeck.local.ManualDraw();
+        manualDrawButton.SetActive(false);
     }
 }

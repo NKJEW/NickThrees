@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingHand : MonoBehaviour {
+public class ScrollingHand : HandVisual {
     public static ScrollingHand instance;
 
     public Transform center;
@@ -11,7 +11,7 @@ public class ScrollingHand : MonoBehaviour {
         instance = this;
     }
 
-    public void Init(List<CardData> cards) {
+    public override void Init(List<CardData> cards, List<CardData> visible, List<CardData> hidden) {
         for (int i = 0; i < center.childCount; i++) {
             Destroy(center.GetChild(i).gameObject);
         }

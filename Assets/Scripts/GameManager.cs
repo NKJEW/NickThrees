@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 
     void Awake() {
         instance = this;
+        preGameCover.SetActive(true);
     }
 
     public void LoadGame(int numDecks) {

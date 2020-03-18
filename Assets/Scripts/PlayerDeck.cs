@@ -62,7 +62,7 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable {
 
         if (photonView.IsMine) {
             local = this;
-            ScrollingHand.instance.Init(hand);
+            UpdateUI();
         }
     }
 
@@ -70,13 +70,19 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable {
     void RpcStartTurn() {
         isMyTurn = true;
         FindPlayableCards();
-        if (playable.Count == 0 && !DrawPile.instance.IsEmpty()) {
-            DrawCard();
-        }
 
         if (photonView.IsMine) {
-            ScrollingHand.instance.Init(hand);
+            if (playable.Count == 0 && !DrawPile.instance.IsEmpty()) {
+                DrawPile.instance.EnableManualDraw();
+            }
+
+            UpdateUI();
         }
+    }
+
+    public void ManualDraw() {
+        DrawCard();
+        UpdateUI();
     }
 
     public void PlayCard(Card card) {
@@ -134,7 +140,7 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable {
             case CenterPile.Result.Explode:
                 FindPlayableCards();
                 if (photonView.IsMine) {
-                    ScrollingHand.instance.Init(hand);
+                    UpdateUI();
                 }
                 break;
         }
@@ -163,7 +169,7 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable {
     void StartNextTurn() {
         isMyTurn = false;
         if (photonView.IsMine) {
-            ScrollingHand.instance.Init(hand);
+            UpdateUI();
             GetNextPlayer().photonView.RPC("RpcStartTurn", RpcTarget.All);
         }
     }
@@ -207,6 +213,10 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable {
     [PunRPC]
     void RpcStartGame(int numDecks) {
         GameManager.instance.OnDeckInitialized(numDecks);
+    }
+
+    void UpdateUI() {
+        ScrollingHand.instance.Init(hand, visible, hidden);
     }
 
     public void OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info) {
