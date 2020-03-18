@@ -36,10 +36,17 @@ public class PlayerDeck : MonoBehaviourPunCallbacks, IPunObservable
 		}
     }
 
-    public string GetPlayerKey() {
+    public string GetPlayerDeckKey() {
     	return CardManager.instance.StringFromCardList(hand) + "/"
     		+ CardManager.instance.StringFromCardList(visible) + "/"
     		+ CardManager.instance.StringFromCardList(hidden);
+    }
+
+    public void Setup(string key) {
+    	string[] arr = key.split('/');
+    	hand = CardManager.instance.CardListFromString(arr[0]);
+    	visible = CardManager.instance.CardListFromString(arr[1]);
+    	hidden = CardManager.instance.CardListFromString(arr[2]);
     }
 
 

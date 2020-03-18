@@ -29,6 +29,8 @@ public struct CardData {
     public string GetKey() { return string.Format("{0}-{1}", (int)GetSuit(), GetValue()); }
 }
 
+public Dictionary<string, CardData> keyToCard;
+
 public class CardManager : MonoBehaviour {
     public static CardManager instance;
 
@@ -48,7 +50,9 @@ public class CardManager : MonoBehaviour {
         for (int i = 0; i < 4; i += 1) {
             CardData.Suit suit = (CardData.Suit)i;
             foreach (CardValue card in cardValues) {
-                deck.Add(new CardData(card, suit));
+                CardData c = new CardData(card, suit);
+                deck.Add(c);
+                keyToCard.Add(c.GetKey(), c);
             }
         }
     }
@@ -61,6 +65,14 @@ public class CardManager : MonoBehaviour {
         string str = list[0].GetKey;
         foreach (CardData c in list.GetRange(1, list.Count - 1)) {
             str += "," + c.GetKey();
+        }
+    }
+
+    public List<CardData> CardListFromString(string str) {
+        string[] arr = str.Split(',');
+        List<CardData> list = new List<CardData>();
+        foreach (string key in arr) {
+            list.Add(keyToCard[key]);
         }
     }
 }
