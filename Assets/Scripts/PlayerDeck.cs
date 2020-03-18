@@ -20,9 +20,10 @@ public class PlayerDeck : MonoBehaviour
     	playable.Clear();
     	if (hand.Count > 0) {
     		SortPlayable(hand);
-    	} else {
+    	} else if (visible.Count > 0) {
     		SortPlayable(visible);
-    		SortPlayable(hidden);
+    	} else {
+    		playable.AddRange(hidden);
     	}
     }
 
