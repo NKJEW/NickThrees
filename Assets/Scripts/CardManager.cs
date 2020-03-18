@@ -53,7 +53,7 @@ public class CardManager : MonoBehaviour {
         }
     }
 
-    public List<CardData> CreateDeckCopy() {
+    public List<CardData> DeckCopy() {
         return new List<CardData>(deck);
     }
 }
