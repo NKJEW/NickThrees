@@ -26,17 +26,19 @@ public struct CardData {
 
     public Suit GetSuit() { return suit; }
     public int GetValue() { return baseData.val; }
+    public string GetDisplay() { return baseData.display; }
     public string GetKey() { return string.Format("{0}-{1}", (int)GetSuit(), GetValue()); }
 }
-
-public Dictionary<string, CardData> keyToCard;
 
 public class CardManager : MonoBehaviour {
     public static CardManager instance;
 
     public List<CardValue> cardValues;
+    public GameObject cardPrefab;
+    public List<Sprite> suitSprites;
 
     List<CardData> deck;
+    Dictionary<string, CardData> keyToCard;
 
     void Awake() {
         instance = this;
@@ -46,6 +48,7 @@ public class CardManager : MonoBehaviour {
 
     void GenerateDeck() {
         deck = new List<CardData>();
+        keyToCard = new Dictionary<string, CardData>();
 
         for (int i = 0; i < 4; i += 1) {
             CardData.Suit suit = (CardData.Suit)i;
@@ -62,17 +65,40 @@ public class CardManager : MonoBehaviour {
     }
 
     public string StringFromCardList(List<CardData> list) {
-        string str = list[0].GetKey;
-        foreach (CardData c in list.GetRange(1, list.Count - 1)) {
-            str += "," + c.GetKey();
+        string str = "";
+        for (int i = 0; i < list.Count; i += 1) {
+            str += list[i].GetKey();
+            if (i < list.Count - 1) {
+                str += ",";
+            }
         }
+        return str;
     }
 
     public List<CardData> CardListFromString(string str) {
         string[] arr = str.Split(',');
         List<CardData> list = new List<CardData>();
         foreach (string key in arr) {
-            list.Add(keyToCard[key]);
+            CardData newCard = PullDeckCard(key);
+            list.Add(newCard);
         }
+        return list;
+    }
+
+    public CardData PullDeckCard(string key) {
+        CardData newCard = keyToCard[key];
+        DrawPile.instance.DrawCard(newCard);
+        return newCard;
+    }
+
+    public Card CreateCard(CardData newData) {
+        GameObject newCardObj = Instantiate(cardPrefab, transform.position, Quaternion.identity);
+        Card newCard = newCardObj.GetComponent<Card>();
+        newCard.Init(newData);
+        return newCard;
+    }
+
+    public Sprite GetSpriteForSuit(CardData.Suit suit) {
+        return suitSprites[(int)suit];
     }
 }
