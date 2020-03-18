@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CenterPile : MonoBehaviour {
+    public static CenterPile instance;
+
     List<CardData> cards;
 
-    public CardData TopCardVal() {
+    void Awake() {
+        instance = this;
+    }
+
+    public int TopCardVal() {
         return cards[cards.Count - 1].GetValue();
     }
 
